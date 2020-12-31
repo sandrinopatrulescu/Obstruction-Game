@@ -1,0 +1,4 @@
+
+
+class GameManagerException(Exception):
+    pass
