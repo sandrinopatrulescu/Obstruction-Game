@@ -7,12 +7,13 @@ from domain.board import Board
 
 class TestBoard(unittest.TestCase):
     def setUp(self):
-        self.board = Board(6)
+        self.board = Board(6, 6)
 
     def test_init(self):
-        self.assertEqual(self.board.size, 6)
-        for line in range(1, self.board.size + 1):
-            for column in range(1, self.board.size + 1):
+        self.assertEqual(self.board.lines, 6)
+        self.assertEqual(self.board.columns, 6)
+        for line in range(1, self.board.lines + 1):
+            for column in range(1, self.board.columns + 1):
                 self.assertEqual(self.board.get_cell(line, column), ' ')
 
     def test_get_cell(self):
@@ -21,8 +22,8 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(self.board.get_cell(6, 6), ' ')
 
     def test_set_cell(self):
-        for line in range(1, self.board.size + 1):
-            for column in range(1, self.board.size + 1):
+        for line in range(1, self.board.lines + 1):
+            for column in range(1, self.board.columns + 1):
                 if column % 4 == 0:
                     self.board.set_cell(line, column, 'X')
                 if column % 4 == 1:
@@ -31,8 +32,8 @@ class TestBoard(unittest.TestCase):
                     self.board.set_cell(line, column, '-')
                 if column % 4 == 3:
                     self.board.set_cell(line, column, ' ')
-        for line in range(1, self.board.size + 1):
-            for column in range(1, self.board.size + 1):
+        for line in range(1, self.board.lines + 1):
+            for column in range(1, self.board.columns + 1):
                 if column % 4 == 0:
                     self.assertEqual(self.board.get_cell(line, column), 'X')
                 if column % 4 == 1:
@@ -43,8 +44,8 @@ class TestBoard(unittest.TestCase):
                     self.assertEqual(self.board.get_cell(line, column), ' ')
 
     def test_str(self):
-        row = [' '] * self.board.size
-        for index in range(1, self.board.size + 1):
+        row = [' '] * self.board.columns
+        for index in range(1, self.board.columns + 1):
             if index % 4 == 0:
                 row[index - 1] = 'X'
             if index % 4 == 1:
@@ -54,11 +55,11 @@ class TestBoard(unittest.TestCase):
             if index % 4 == 3:
                 row[index - 1] = ' '
         table = Texttable()
-        for index in range(self.board.size):
+        for index in range(self.board.lines):
             table.add_row(row)
 
-        for line in range(1, self.board.size + 1):
-            for column in range(1, self.board.size + 1):
+        for line in range(1, self.board.lines + 1):
+            for column in range(1, self.board.columns + 1):
                 if column % 4 == 0:
                     self.board.set_cell(line, column, 'X')
                 if column % 4 == 1:

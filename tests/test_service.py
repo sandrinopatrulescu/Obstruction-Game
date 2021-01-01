@@ -8,7 +8,12 @@ from service.game_manager import GameManager
 class TestGameManager(unittest.TestCase):
     def setUp(self) -> None:
         move_validator = MoveValidator()
-        self.game_manager = GameManager(Board(6), move_validator)
+        self.game_manager = GameManager(Board(6, 6), move_validator)
+
+    def test_set_board_size(self):
+        self.game_manager.set_board_size(5, 5)
+        self.assertTrue(self.game_manager.board.get_cell(5, 5), ' ')
+        self.assertRaises(IndexError, self.game_manager.board.get_cell, 6, 6)
 
     def test_border_move(self):
         self.game_manager.board.set_cell(1, 1, 'X')

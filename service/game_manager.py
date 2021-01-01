@@ -1,3 +1,4 @@
+from domain.board import Board
 
 
 class GameManager:
@@ -6,23 +7,26 @@ class GameManager:
         self.move_validator = validator
         self.last_move_by = None
 
+    def set_board_size(self, lines, columns):
+        self.board = Board(lines, columns)
+
     def border_move(self, center_line, center_column, radius):
         for column_displacement in range(-radius, radius + 1):
-            if center_line - radius in range(1, self.board.size + 1):
-                if center_column + column_displacement in range(1, self.board.size + 1):
+            if center_line - radius in range(1, self.board.lines + 1):
+                if center_column + column_displacement in range(1, self.board.columns + 1):
                     if self.board.get_cell(center_line - radius, center_column + column_displacement) == ' ':
                         self.board.set_cell(center_line - radius, center_column + column_displacement, '-')
-            if center_line + radius in range(1, self.board.size + 1):
-                if center_column + column_displacement in range(1, self.board.size + 1):
+            if center_line + radius in range(1, self.board.lines + 1):
+                if center_column + column_displacement in range(1, self.board.columns + 1):
                     if self.board.get_cell(center_line + radius, center_column + column_displacement) == ' ':
                         self.board.set_cell(center_line + radius, center_column + column_displacement, '-')
         for line_displacement in range(-radius, radius + 1):
-            if center_line + line_displacement in range(1, self.board.size + 1):
-                if center_column - radius in range(1, self.board.size + 1):
+            if center_line + line_displacement in range(1, self.board.lines + 1):
+                if center_column - radius in range(1, self.board.columns + 1):
                     if self.board.get_cell(center_line + line_displacement, center_column - radius) == ' ':
                         self.board.set_cell(center_line + line_displacement, center_column - radius, '-')
-            if center_line + line_displacement in range(1, self.board.size + 1):
-                if center_column + radius in range(1, self.board.size + 1):
+            if center_line + line_displacement in range(1, self.board.lines + 1):
+                if center_column + radius in range(1, self.board.columns + 1):
                     if self.board.get_cell(center_line + line_displacement, center_column + radius) == ' ':
                         self.board.set_cell(center_line + line_displacement, center_column + radius, '-')
 
@@ -32,10 +36,26 @@ class GameManager:
         self.border_move(line, column, 1)
         self.last_move_by = value
 
+    def move_computer_easy(self, value):
+        for line in range(1, self.board.lines + 1):
+            for column in range(1, self.board.columns + 1):
+                if self.board.get_cell(line, column) == ' ':
+                    self.board.set_cell(line, column, value)
+                    self.border_move(line, column, 1)
+                    self.last_move_by = value
+                    return line, column
+        return None, None
+
+    def move_computer_medium(self, value):
+        pass
+
+    def move_computer_hard(self, value):
+        pass
+
     def game_over(self):
         spaces_left = 0
-        for line in range(1, self.board.size + 1):
-            for column in range(1, self.board.size + 1):
+        for line in range(1, self.board.lines + 1):
+            for column in range(1, self.board.columns + 1):
                 if self.board.get_cell(line, column) == ' ':
                     spaces_left = spaces_left + 1
         if spaces_left == 0:

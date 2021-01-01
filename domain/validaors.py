@@ -8,9 +8,9 @@ class AddMoveException(GameManagerException):
 class MoveValidator(object):
     @staticmethod
     def validate(board, line, column):
-        if line not in range(1, board.size + 1):
+        if line not in range(1, board.lines + 1):
             raise AddMoveException("Line exceeds board size!")
-        if column not in range(1, board.size + 1):
+        if column not in range(1, board.columns + 1):
             raise AddMoveException("Column exceeds board size!")
         if board.get_cell(line, column) == '-':
             raise AddMoveException("Cannot move on shadow block!")
