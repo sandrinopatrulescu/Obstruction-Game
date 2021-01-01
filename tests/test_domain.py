@@ -71,5 +71,52 @@ class TestBoard(unittest.TestCase):
 
         self.assertEqual(str(self.board), table.draw())
 
+    def test_border_move(self):
+        self.board.set_cell(1, 1, 'X')
+        self.board.border_move(1, 1, 1)
+        self.assertTrue(self.board.get_cell(1, 1), 'X')
+        self.assertTrue(self.board.get_cell(1, 2), '-')
+        self.assertTrue(self.board.get_cell(2, 1), '-')
+        self.assertTrue(self.board.get_cell(2, 2), '-')
+        self.assertTrue(self.board.get_cell(1, 3), ' ')
+        self.assertTrue(self.board.get_cell(2, 3), ' ')
+        self.assertTrue(self.board.get_cell(2, 3), ' ')
+        self.assertTrue(self.board.get_cell(3, 1), ' ')
+        self.assertTrue(self.board.get_cell(3, 2), ' ')
+        self.assertTrue(self.board.get_cell(3, 3), ' ')
+
+        self.board.set_cell(2, 5, 'O')
+        self.board.border_move(2, 5, 1)
+        self.assertTrue(self.board.get_cell(1, 4), '-')
+        self.assertTrue(self.board.get_cell(1, 5), '-')
+        self.assertTrue(self.board.get_cell(1, 6), '-')
+        self.assertTrue(self.board.get_cell(2, 4), '-')
+        self.assertTrue(self.board.get_cell(2, 5), 'O')
+        self.assertTrue(self.board.get_cell(2, 6), '-')
+        self.assertTrue(self.board.get_cell(3, 4), '-')
+        self.assertTrue(self.board.get_cell(3, 5), '-')
+        self.assertTrue(self.board.get_cell(3, 6), '-')
+
+        self.board.set_cell(5, 4, 'X')
+        self.board.border_move(5, 4, 1)
+        self.assertTrue(self.board.get_cell(4, 3), '-')
+        self.assertTrue(self.board.get_cell(4, 4), '-')
+        self.assertTrue(self.board.get_cell(4, 5), '-')
+        self.assertTrue(self.board.get_cell(5, 3), '-')
+        self.assertTrue(self.board.get_cell(5, 4), 'X')
+        self.assertTrue(self.board.get_cell(5, 5), '-')
+        self.assertTrue(self.board.get_cell(6, 3), '-')
+        self.assertTrue(self.board.get_cell(6, 4), '-')
+        self.assertTrue(self.board.get_cell(6, 5), '-')
+
+    def test_spaces_left(self):
+        self.assertEqual(self.board.spaces_left(), 36)
+        self.board.set_cell(2, 2, 'X')
+        self.assertEqual(self.board.spaces_left(), 35)
+        self.board.set_cell(3, 3, 'O')
+        self.assertEqual(self.board.spaces_left(), 34)
+        self.board.set_cell(6, 6, '-')
+        self.assertEqual(self.board.spaces_left(), 33)
+
     def tearDown(self):
         print("TORE DOWN!")

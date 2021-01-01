@@ -130,7 +130,6 @@ class Cli:
     def start_game(self, players):
         turn = 'O'
         while not self.game_service.game_over():
-            print('start test', turn)
             print(str(self.game_service.board))
             print("It's {}'s turn!".format(players[turn]['name']))
             if players[turn]['status'] == 'human':
