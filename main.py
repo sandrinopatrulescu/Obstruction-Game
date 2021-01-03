@@ -1,5 +1,5 @@
 from domain.board import Board
-from domain.validaors import MoveValidator
+from domain.validators import MoveValidator
 from service.game_manager import GameManager
 from ui.cli import Cli
 

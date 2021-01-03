@@ -16,6 +16,11 @@ class TestBoard(unittest.TestCase):
             for column in range(1, self.board.columns + 1):
                 self.assertEqual(self.board.get_cell(line, column), ' ')
 
+    def test_set_board_size(self):
+        self.board.set_board_size(5, 5)
+        self.assertTrue(self.board.get_cell(5, 5), ' ')
+        self.assertRaises(IndexError, self.board.get_cell, 6, 6)
+
     def test_get_cell(self):
         self.assertEqual(self.board.get_cell(1, 1), ' ')
         self.assertEqual(self.board.get_cell(2, 5), ' ')
@@ -73,7 +78,7 @@ class TestBoard(unittest.TestCase):
 
     def test_border_move(self):
         self.board.set_cell(1, 1, 'X')
-        self.board.border_move(1, 1, 1)
+        self.board.border_move(1, 1, 1, '-')
         self.assertTrue(self.board.get_cell(1, 1), 'X')
         self.assertTrue(self.board.get_cell(1, 2), '-')
         self.assertTrue(self.board.get_cell(2, 1), '-')
@@ -86,7 +91,7 @@ class TestBoard(unittest.TestCase):
         self.assertTrue(self.board.get_cell(3, 3), ' ')
 
         self.board.set_cell(2, 5, 'O')
-        self.board.border_move(2, 5, 1)
+        self.board.border_move(2, 5, 1, '-')
         self.assertTrue(self.board.get_cell(1, 4), '-')
         self.assertTrue(self.board.get_cell(1, 5), '-')
         self.assertTrue(self.board.get_cell(1, 6), '-')
@@ -98,7 +103,7 @@ class TestBoard(unittest.TestCase):
         self.assertTrue(self.board.get_cell(3, 6), '-')
 
         self.board.set_cell(5, 4, 'X')
-        self.board.border_move(5, 4, 1)
+        self.board.border_move(5, 4, 1, '-')
         self.assertTrue(self.board.get_cell(4, 3), '-')
         self.assertTrue(self.board.get_cell(4, 4), '-')
         self.assertTrue(self.board.get_cell(4, 5), '-')

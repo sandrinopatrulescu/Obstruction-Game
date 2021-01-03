@@ -1,5 +1,5 @@
 from domain.board import Board
-from domain.validaors import AddMoveException
+from domain.validators import AddMoveException
 
 
 class Cli:
@@ -15,7 +15,7 @@ class Cli:
         print("     Available commands (commands are case sensitive):")
         print("         quit - quit the game")
         print("         board size m x n  - default size is 6 x 6 (m x n integers, m, n >= 1)")
-        print("         vs human/computer easy/computer medium/computer hard - choose difficulty")
+        print("         vs human/computer easy/computer medium/computer hard - choose difficulty (hard - )")
         print("         name player O/X -name- - choose names")
         print("         play [X/O] - play vs human or choose difficulty if playing vs computer")
         print("         end - ends the current session")
@@ -49,7 +49,7 @@ class Cli:
                         columns = int(columns)
                         if lines < 1 or columns < 1:
                             print("Sizes must be greater or equal to 1")
-                        self.game_service.set_board_size(lines, columns)
+                        self.game_service.board.set_board_size(lines, columns)
                         if self.game_service.board.lines == lines and self.game_service.board.columns == columns:
                             print("Board size was set!")
                     except ValueError:
@@ -83,10 +83,13 @@ class Cli:
                 arguments = user_command.split(' ')
                 if arguments[0] != 'name':
                     print("Invalid command")
-                if arguments[1] == 'O':
-                    players['O']['name'] = arguments[2]
-                elif arguments[1] == 'X':
-                    players['X']['name'] = arguments[2]
+                if len(arguments) == 3:
+                    if arguments[1] == 'O':
+                        players['O']['name'] = arguments[2]
+                    elif arguments[1] == 'X':
+                        players['X']['name'] = arguments[2]
+                    else:
+                        print("Invalid command")
                 else:
                     print("Invalid command")
             elif user_command.find('play') == 0:
@@ -150,7 +153,7 @@ class Cli:
                                     # move_function(line, column, turn)
                                     self.game_service.add_move(line, column, turn)
                                     if self.game_service.board.get_cell(line, column) == turn:
-                                        print(players[turn]['name'] + ' put {} at {}, {}'.format(turn, line, column))
+                                        print(players[turn]['name'] + ' put {} at line {} column {}'.format(turn, line, column))
                                     if turn == 'O':
                                         turn = 'X'
                                     elif turn == 'X':
@@ -165,13 +168,15 @@ class Cli:
                         print("Invalid command")
             elif players[turn]['status'] == 'computer':
                 move_function = eval('self.' + players[turn]['function'])
+                #print(move_function(turn))
                 line, column = move_function(turn)
                 if line and column:
-                    print(players[turn]['name'] + ' put {} at {}, {}'.format(turn, line, column))
+                    print(players[turn]['name'] + ' put {} at line {} column {}'.format(turn, line, column))
                 if turn == 'O':
                     turn = 'X'
                 elif turn == 'X':
                     turn = 'O'
+        print(str(self.game_service.board))
         if self.game_service.last_move_by == 'O':
             print("{} won!".format(players['O']['name']))
         else:
