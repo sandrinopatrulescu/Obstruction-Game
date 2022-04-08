@@ -18,6 +18,7 @@ class Cli:
         print("         vs human/computer easy/computer medium/computer hard - choose difficulty (hard - )")
         print("         name player O/X -name- - choose names")
         print("         play [X/O] - play vs human or choose difficulty if playing vs computer")
+        print("         move <row> <column> - make a move")
         print("         end - ends the current session")
         print()
 
